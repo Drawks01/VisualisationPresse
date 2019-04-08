@@ -1,0 +1,143 @@
+body {
+  display: table;
+  margin: 20px auto auto;
+  font-family: Arial, sans-serif;
+}
+
+.center {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(25%, 0%);
+}
+
+.row {
+  display: flex;
+}
+
+.row > .col {
+  flex: 1;
+}
+
+h1 {
+  font-family: Georgia, serif;
+  font-size: 3em;
+  margin: 15px 0 20px 0;
+  text-align: center;
+}
+
+svg {
+  background-color: white;
+}
+.axis {
+  shape-rendering: crispEdges
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: black;
+  shape-rendering: crispEdges;
+}
+
+.y.axis path {
+  fill: none;
+  stroke: black;
+  shape-rendering: crispEdges;
+}
+
+.brush .extent {
+  stroke: white;
+  fill-opacity: .125;
+  shape-rendering: crispEdges;
+}
+
+.line {
+  fill: none;
+}
+
+.axis text {
+  font-size: 12pt;
+}
+
+.svg-plot {
+  position: absolute;
+}
+
+/***** Tabs *****/
+.tabs {
+  border: 1px solid #666;
+}
+
+.tabs > .header {
+  height: 30px;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  text-align: center;
+  line-height: 30px;
+  border-bottom: 1px solid #666;
+}
+
+.tabs > .header > li {
+  background-color: #e6e7e8;
+  cursor: pointer;
+}
+
+.tabs > .header > li:not(:last-child) {
+  border-right: 1px solid #666;
+}
+
+.tabs > .header > li.active {
+  color: #fff;
+  background-color: #4c7d95;
+}
+
+.tabs > .content > .tab {
+  display: none;
+  width: 100%;
+  padding: 20px 10px 10px 10px;
+  box-sizing: border-box;
+}
+
+.tabs > .content > .tab.visible {
+  display: block;
+}
+
+/***** Tip *****/
+
+.d3-tip {
+  line-height: 1;
+  padding: 12px;
+  border-radius: 2px;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.8);
+}
+
+.d3-tip:after {
+  display: inline;
+  top: 100%;
+  left: 0;
+  margin: -1px 0 0 0;
+  box-sizing: border-box;
+  font-size: 10px;
+  line-height: 1;
+  color: rgba(0, 0, 0, 0.8);
+  content: "\25BC";
+  position: absolute;
+}
+
+div#tooltip {
+  position: absolute;        
+  display: inline-block;
+  padding: 10px;
+  font-family: 'Open Sans' sans-serif;
+  color: #000;
+  background-color: #fff;
+  border: 1px solid #999;
+  border-radius: 2px;
+    pointer-events: none;
+  opacity: 0;
+  z-index: 1;
+}

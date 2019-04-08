@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>INF8808 - Projet</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+  <h1>Etude des préoccupations journalistiques au Québec</h1>
+  <div id="brush-div">
+  </div>
+  <div class="tabs" style="width: min-content">
+    <ul class="header row">
+      <li class="col active">Chaleur</li>
+      <li class="col">Histogramme</li>
+    </ul>
+    <div class="content">
+      <section class="tab visible" aria-label="Chaleur" id="chaleur-tab">
+        <div id="tooltip"></div>
+        <svg id="chaleur-svg"></svg>
+      </section>
+      <section class="tab" aria-label="Histogramme">
+        <svg id="histogramme-svg"></svg>
+      </section>
+    </div>
+  </div>
+  <script type="text/javascript" src="assets/libs/d3.js"></script>
+  <script type="text/javascript" src="assets/libs/localization-fr.js"></script>
+  <script type="text/javascript" src="assets/scripts/1-preproc.js"></script>
+  <script type="text/javascript" src="assets/scripts/2-HeatMap.js"></script>
+  <script type="text/javascript" src="assets/scripts/3-brush.js"></script>
+  <script type="text/javascript" src="assets/scripts/4-legend.js"></script>
+  <script type="text/javascript" src="assets/scripts/5-bar-chart.js"></script>
+  <script type="text/javascript" src="assets/scripts/6-canvas.js"></script>
+  <script type="text/javascript" src="assets/scripts/main.js"></script>
+</body>
+</html>

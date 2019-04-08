@@ -1,0 +1,4 @@
+zoom rescale grid : http://bl.ocks.org/tommct/8116740
+heatmap : https://www.datavis.fr/index.php?page=day-hour-heatmap&fbclid=IwAR3f2HKVUXDTdf2U_QwnJZG7-Ph0AxKaTOEU_HxDpdvRqnyacQIZYKE8R4Y
+colorbrewer : http://colorbrewer2.org/#type=sequential&scheme=YlOrRd&n=3
+sortable heatmap : http://bl.ocks.org/umcrcooke/5703304
