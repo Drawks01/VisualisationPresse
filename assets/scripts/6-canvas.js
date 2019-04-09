@@ -2,7 +2,9 @@
 var nextCol;
 var colourToNode; // Map to track the colour of nodes.
 
-
+/**
+ * Génère la couleur de la case suivante
+ */
 function genColor(){ 
   var ret = [];
 
@@ -20,7 +22,9 @@ function genColor(){
 }
 
 
-
+/**
+ * Remise à zéro des couleurs du canvas pour le tool-tip
+ */
 function resetColourNode(){
   colourToNode = {}
   nextCol = 1;
@@ -28,6 +32,15 @@ function resetColourNode(){
   .style('opacity', 0);
 }
 
+/**
+ * Crée les tuiles du canvas
+ * @param {*} data Donnée
+ * @param {*} width Largeur du canvas
+ * @param {*} height Hauteur du canvas
+ * @param {*} xGridSize Largeur d'une case
+ * @param {*} yGridSize Hauteur d'une case
+ * @param {*} color Échelle de couleur
+ */
 function databind(data,width,height,xGridSize,yGridSize,color) {
 
   var customBase = document.createElement('custom');
@@ -54,12 +67,17 @@ function databind(data,width,height,xGridSize,yGridSize,color) {
     });
   })
 
-
-
   return custom;
-
 }
 
+/**
+ * Dessine les éléments dans le canvas
+ * @param {*} width Largeur du canvas
+ * @param {*} height Hauteur du canvas
+ * @param {*} context 
+ * @param {*} custom 
+ * @param {*} hidden
+ */
 function draw(width,height,context,custom,hidden){
 
   context.clearRect(0, 0, width, height);
@@ -72,6 +90,13 @@ function draw(width,height,context,custom,hidden){
   });
 }
 
+/**
+ * Gère le survol de la souris
+ * @param {*} mouseX Position horizontale de la souris
+ * @param {*} mouseY Position verticale de la souris
+ * @param {*} id id du canvas sur lequel on dessine
+ * @param {*} heat Svg dans lequel il y a les cartes de chaleur
+ */
 function mouseEventHandler(mouseX,mouseY,id,heat){
 
   var hid = heat.selectAll(".hiddenCanvas")

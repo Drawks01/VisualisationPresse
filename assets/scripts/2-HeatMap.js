@@ -1,6 +1,17 @@
 "use strict";
 
-function createHeatMapAxis(heat, sources, xHeat, yHeat, xAxisHeat, yAxisHeat, heightHeat, widthHeat, interHeat, transXY) {
+/**
+ * Crée les axes du canvas, le canvas et le tooltip
+ * @param {*} heat Svg dans lequel dessiner
+ * @param {*} sources Array de données
+ * @param {*} xAxisHeat Axe des abscisses de la carte de chaleur
+ * @param {*} yAxisHeat Axe des ordonnées de la carte de chaleur
+ * @param {*} heightHeat Hauteur d'une carte de chaleur
+ * @param {*} widthHeat Largeur d'une carte de chaleur
+ * @param {*} interHeat Écart vertical entre deux cartes de chaleur
+ * @param {*} transXY Translation diagonale dans le svg pour dessiner la carte de chaleur
+ */
+function createHeatMapAxis(heat, sources, xAxisHeat, yAxisHeat, heightHeat, widthHeat, interHeat, transXY) {
 
     sources.forEach(function (d, i) {
 
@@ -13,8 +24,10 @@ function createHeatMapAxis(heat, sources, xHeat, yHeat, xAxisHeat, yAxisHeat, he
         heat.append("text")
             .attr("id", d.name)
             .classed("textPays", true)
-            .attr("transform", "translate(" + (-transXY) + "," + (250 + i * (interHeat + heightHeat)) + ")")
-            .text(d.name);
+            .attr("transform", "translate(" + (-transXY) + "," + (225 + i * (interHeat + heightHeat)) + ")")
+            .text(jsUcfirst(d.name))
+            .attr("font-weight",800)
+            .style("font-size",22+"px");
 
         groupe.append("g")
             .attr("class", "x axis")
@@ -42,7 +55,6 @@ function createHeatMapAxis(heat, sources, xHeat, yHeat, xAxisHeat, yAxisHeat, he
             .style("margin", "0px")
             .style("padding", "0px")
             .style("background-color", "none")
-
 
         var container = foBody.append("div")
             .style("width", widthHeat + "px")
@@ -86,6 +98,14 @@ function createHeatMapAxis(heat, sources, xHeat, yHeat, xAxisHeat, yAxisHeat, he
 
 }
 
+/**
+ * Met à jour les places des cartes de chaleur en fonction du nombre total d'occurences sur la période sélectionnée
+ * @param {*} newData Array de données sélectionnée par le brush
+ * @param {*} heat Svg dans lequel les cartes de chaleur sont dessinnées
+ * @param {*} interHeat Écart vertical entre deux cartes de chaleur
+ * @param {*} heightHeat Hauteur d'une carte de chaleur
+ * @param {*} transXY Translation diagonale dans le svg pour dessiner la carte de chaleur
+ */
 function updateClassement(newData, heat, interHeat, heightHeat, transXY) {
     newData.forEach(function (d, i) {
         heat.selectAll("#" + d.name)
@@ -106,7 +126,15 @@ function updateClassement(newData, heat, interHeat, heightHeat, transXY) {
     })
 }
 
-
+/**
+ * Remplissage des canvas en fonction de la donnée
+ * @param {*} heat Svg dans lequel les cartes de chaleur sont dessinnées
+ * @param {*} matrix Donnée à dessiner
+ * @param {*} color Palette de couleur de la carte de chaleur
+ * @param {*} xHeat Axe des abscisses de la carte de chaleur
+ * @param {*} yHeat Axe des ordonnées de la carte de chaleur
+ * @param {*} minDate Date minimale des données
+ */
 function createHeatMap(heat, matrix, color, xHeat, yHeat, minDate) {
 
     var numberYears = Math.round(Math.abs((xHeat.domain()[1].getFullYear() - xHeat.domain()[0].getFullYear()))) + 1;
@@ -143,21 +171,14 @@ function createHeatMap(heat, matrix, color, xHeat, yHeat, minDate) {
         });
 }
 
-function drawImage(canvas) {
-    var ctx = canvas.node().getContext('2d');
-    var xmax = 100;
-    var ymax = 100;
-    var img = ctx.createImageData(xmax, ymax);
-    for (var y = 0, p = -1; y < ymax; ++y) {
-        for (var x = 0; x < xmax; ++x) {
-            img.data[++p] = 255;
-            img.data[++p] = 0;
-            img.data[++p] = 0;
-            img.data[++p] = 255;
-        }
-    }
-}
-
+/**
+ * Extrait une sous matrice de la matrice principale
+ * @param {*} matrix Matrice principale
+ * @param {*} ipos Ligne de départ
+ * @param {*} jpos Colonne de départ
+ * @param {*} isize Nombre de lignes
+ * @param {*} jsize Nombre de colonnes
+ */
 function submat(matrix, ipos, jpos, isize, jsize) {
     var result = [];
     for (var i = ipos; i < ipos + isize; i++) {
@@ -170,6 +191,11 @@ function submat(matrix, ipos, jpos, isize, jsize) {
     return result;
 }
 
+/**
+ * Met à jour les ticks sur les axes en fonction de la taille du brush
+ * @param {*} numberYears Nombres d'années sélectionnées par le brush
+ * @param {*} chaleurSvg Svg dans lequel on a dessiné les cartes de chaleur
+ */
 function axeUpdate(numberYears, chaleurSvg) {
     var inter;
     if (numberYears > 50) {
@@ -215,4 +241,12 @@ function axeUpdate(numberYears, chaleurSvg) {
             }
 
         });
+}
+
+/**
+ * Ajoute une majuscule à une string
+ * @param {*} string Mot auquel ajouter une majuscule
+ */
+function jsUcfirst(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
 }

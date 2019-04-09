@@ -1,5 +1,11 @@
 "use strict";
 
+/**
+ * Trace la légende
+ * @param {*} svg Svg dans lequel dessiner la légende
+ * @param {*} data Donnée
+ * @param {*} color Palette de couleur
+ */
 function legend(svg, data, color) {
   var pays = data.columns.slice(1);
   var max = 0;
@@ -42,10 +48,10 @@ function legend(svg, data, color) {
   // append title
   svgLegend.append("text")
   .attr("class", "legendTitle")
-  .attr("x", 150)
+  .attr("x", 40 )
   .attr("y", 20)
   .style("text-anchor", "center")
-  .text("Nombre d'occurences");
+  .text("Nombre moyen d'occurences par édition (x100)");
   
   svgLegend.append("text")
   .attr("x", 5)
@@ -54,10 +60,10 @@ function legend(svg, data, color) {
   .text("0");
   
   svgLegend.append("text")
-  .attr("x", 420)
+  .attr("x", 423)
   .attr("y", 45)
   .style("text-anchor", "right")
-  .text(max);
+  .text( Math.trunc(max/4));
 
   svgLegend.append("rect")
   .attr("x", 20)
@@ -67,6 +73,19 @@ function legend(svg, data, color) {
   .attr("rx",10) 
   .attr("ry",10)
   .style("fill", "url(#linear-gradient)");
+
+  svgLegend.append("rect")
+  .attr("x", 10)
+  .attr("y", 75)
+  .attr("width", 30)
+  .attr("height", 30)
+  .style("fill", "black");
+
+  svgLegend.append("text")
+  .attr("x", 50)
+  .attr("y", 92)
+  .style("text-anchor", "right")
+  .text("Edition manquante");
   }
     
     

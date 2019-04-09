@@ -13,7 +13,7 @@
   var wS = screen.width;
   var hS = screen.height;
 
-  var hSvg = 2000; 
+  var hSvg = 6000; 
   var wSvg = 0.85*wS;
 
   var marginBrush = {
@@ -34,7 +34,7 @@
     top: 55,
     right: 50,
     bottom: 150,
-    left: 60
+    left: 100
   };
 
   var barChartWidth = 0.7*wS - barChartMargin.left - barChartMargin.right;
@@ -46,7 +46,7 @@
   var heightHisto = 0.8*hS;
   var widthHisto = 0.8*wS;
   
-  var hPays = 0.25*hS;
+  var hPays = 0.2*hS;
   var wPays = 0.5*widthHeat;
   var interPays = 0.1*hPays;
   var transXY = 50;
@@ -82,19 +82,20 @@
       });
   });
 
-    var body = d3.select("body");
+  
+  var body = d3.select("body");
 
-    var brushDiv = d3.select("#brush-div");
+  var brushDiv = d3.select("#brush-div");
 
-    var chaleurSvg = d3.select("#chaleur-svg")
+  var chaleurSvg = d3.select("#chaleur-svg")
     .attr("width", widthHeat + marginHeat.left + marginHeat.right)
     .attr("height", heightHeat + marginHeat.top + marginHeat.bottom);
 
-    var histoSvg = d3.select("#histogramme-svg")
+  var histoSvg = d3.select("#histogramme-svg")
     .attr("width", widthHisto + marginHeat.left + marginHeat.right)
     .attr("height", heightHisto + marginHeat.top + marginHeat.bottom);
 
-    var histoGroup = histoSvg.append("g")
+  var histoGroup = histoSvg.append("g")
     .attr("transform", "translate(" + barChartMargin.left + "," + barChartMargin.top + ")");
 
   var heat = chaleurSvg.append("g")
@@ -122,8 +123,6 @@
 
   var sources;
   var color;
-  var widthGrid = 0;
-  var heightGrid = heightHeat / 12;
   var brushInterval; //Distance entre 2 tick de l'axe brush
   var minDate;
   var matrix;
@@ -150,16 +149,15 @@
       transition(histoGroup, newData, x, y, colorBar, xAxis, yAxis, barChartHeight);
     });
 
-  //console.log(d3.select(svg.selectAll(".tick")))//.attr("visibility","hidden");
+  /***** Construction de la visualisation *****/
+  d3.csv("./data/articleDevoir2.csv").then(function(data) {
 
-  /***** Chargement des données *****/
-  d3.csv("./data/dataCompl.csv").then(function(data) {
-
-    /***** Prétraitement des données *****/
+    // Prétraitement des données
     color = d3.scaleLinear();
     
     domainColor(color, data);
     parseDate(data);
+
     console.log("Data", data);
 
     sources = createSources(color, data);
@@ -175,9 +173,9 @@
     var tickArray = xBrush.ticks(numberYears);
     brushInterval = xBrush(tickArray[tickArray.length - 1]) - xBrush(tickArray[tickArray.length - 2]);
     
-    /***** Création du graphique Heat *****/
+    // Création du graphique Heat 
 
-    createHeatMapAxis(heat,sources,xHeat,yHeat,xAxisHeat,yAxisHeat,hPays,wPays, interPays, transXY);
+    createHeatMapAxis(heat,sources,xAxisHeat,yAxisHeat,hPays,wPays, interPays, transXY);
     d3.selectAll("g.y.axis g.tick line")
       .attr("stroke-width", 1)
       .attr("x2", 0);
@@ -186,10 +184,11 @@
     d3.selectAll("g.x.axis g.tick text")
       .style("font-size",12+"px");
 
-    createHeatMap(heat, matrix, color, xHeat,yHeat,minDate);
+    createHeatMap(heat, matrix, color, xHeat, yHeat, minDate);
     axeUpdate(numberYears,chaleurSvg);
 
     // Axes brush
+
     brushG.append("g")
       .attr("class", "x axis")
       .attr("transform", "translate(20," + heightBrush + ")")
@@ -202,37 +201,41 @@
       .attr("y", -6)
       .attr("height", heightBrush + 7);
 
-    /***** Création de la légende *****/
+    // Création de la légende
     
-   legend(chaleurSvg, data, color)
+    legend(chaleurSvg, data, color)
 
-    /***** Création des médailles *****/
+    // Création des médailles
 
-   var img = document.createElement("img");
-   img.src = "assets/pngs/gold-medal.png";
-   var src = document.getElementById("chaleur-tab");
-   var goldMedal = src.appendChild(img);
-   goldMedal.setAttribute("style", "transform: translate(170px, 280px) scale(0.1); position: absolute; left: 0; top: 0");
+    heat.append("svg:image")
+      .attr('x',-20)
+      .attr('y', 270)
+      .attr('width', 50)
+      .attr('height', 50)
+      .attr("xlink:href", "assets/pngs/gold-medal.png");
 
-   img = document.createElement("img");
-   img.src = "assets/pngs/silver-medal.png";
-   src = document.getElementById("chaleur-tab");
-   goldMedal = src.appendChild(img);
-   goldMedal.setAttribute("style", "transform: translate(170px, 530px) scale(0.1); position: absolute; left: 0; top: 0");
+    heat.append("svg:image")
+      .attr('x',-20)
+      .attr('y', 470)
+      .attr('width', 50)
+      .attr('height', 50)
+      .attr("xlink:href", "assets/pngs/silver-medal.png");
 
-   img = document.createElement("img");
-   img.src = "assets/pngs/bronze-medal.png";
-   src = document.getElementById("chaleur-tab");
-   goldMedal = src.appendChild(img);
-   goldMedal.setAttribute("style", "transform: translate(170px, 780px) scale(0.1); position: absolute; left: 0; top: 0");
+    heat.append("svg:image")
+      .attr('x',-20)
+      .attr('y', 670)
+      .attr('width', 50)
+      .attr('height', 50)
+      .attr("xlink:href", "assets/pngs/bronze-medal.png");
   
-    /***** Création de l'histogramme *****/
+    // Création de l'histogramme
 
     colorBar = d3.scaleOrdinal(d3.schemeCategory10);
     x = d3.scaleBand().range([0, barChartWidth]).round(0.05);
     y = d3.scaleLinear().range([barChartHeight, 0]);
 
     // Prétraitement des données
+
     var chartSources = sourcesToChart(sources, xHeat);
     console.log("chartSources", chartSources);
 
@@ -243,9 +246,12 @@
     xAxis = d3.axisBottom(x);
     yAxis = d3.axisLeft(y);
 
-  createAxes(histoGroup, xAxis, yAxis, barChartHeight);
-  createBarChart(histoGroup, chartSources, x, y, colorBar, barChartHeight);
+    createAxes(histoGroup, xAxis, yAxis, barChartHeight);
+    createBarChart(histoGroup, chartSources, x, y, colorBar, barChartHeight);
+   
 
-  });
+    body.selectAll("text")
+      .attr("font-family", "Arvo");
+    });
+  })(d3, localization);
 
-})(d3, localization);
